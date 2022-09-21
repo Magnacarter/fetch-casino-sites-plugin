@@ -30,15 +30,12 @@ define( 'RAKETECH_PLUGIN_URL', $plugin_url );
 define( 'RAKETECH_PLUGIN_DIR', plugin_dir_path( __DIR__ ) );
 define( 'RAKETECH_PLUGIN_VER', '1.0.0' );
 
+new Init_Plugin();
+
 /**
  * Class Init_Plugin
  */
 class Init_Plugin {
-
-	/**
-	 * @var $instance
-	 */
-	private static $instance;
 
 	/**
 	 * Construct function
@@ -46,21 +43,19 @@ class Init_Plugin {
 	 * @return void
 	 */
 	public function __construct() {
-		// if ( is_admin ) {
+		// Only load script if in admin.
+		// if ( is_admin() ) {
 		// 	add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		// }
 
-		// Load public scripts and styles
-		add_action( 'wp_enqueue_scripts', array( $this, 'public_scripts' ) );
+		register_activation_hook( __FILE__, array( __CLASS__, 'activate_plugin' ) );
+		register_deactivation_hook( __FILE__, array( __CLASS__, 'deactivate_plugin' ) );
+		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall_plugin' ) );
 
-		register_activation_hook( __FILE__, array( $this, 'activate_plugin' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'deactivate_plugin' ) );
-		register_uninstall_hook( __FILE__, array( $this, 'uninstall_plugin' ) );
-
-		self::init_autoloader();
+		$this->init_autoloader();
 	}
 
-	/**
+    /**
 	 * Enqueue public scripts and styles
 	 *
 	 * @since 1.0.0
@@ -72,47 +67,51 @@ class Init_Plugin {
 	}
 
 	/**
-	 * Enqueue admin scripts and styles
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function admin_scripts() {
-		// wp_enqueue_style(  'wpbb_admin_styles', RAKETECH_PLUGIN_URL . 'assets/css/admin.css', RAKETECH_PLUGIN_VER );
-		// wp_enqueue_media();
-	}
-
-	/**
 	 * Plugin activation handler
 	 *
 	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
-	public function activate_plugin() {
-		self::init_autoloader();
+	public static function activate_plugin() {
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			return;
+		}
 		flush_rewrite_rules();
 	}
 
 	/**
-	 * The plugin is deactivating.  Delete out the rewrite rules option.
+	 * The plugin is deactivating. Delete out the rewrite rules option.
 	 *
-	 * @since 1.0.1
+	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
-	public function deactivate_plugin() {
+	public static function deactivate_plugin() {
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			return;
+		}
 		delete_option( 'rewrite_rules' );
 	}
 
 	/**
 	 * Uninstall plugin handler
 	 *
-	 * @since 1.0.1
+	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
-	public function uninstall_plugin() {
+	public static function uninstall_plugin() {
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			return;
+		}
+		check_admin_referer( 'bulk-plugins' );
+
+		// Important: Check if the file is the one
+		// that was registered during the uninstall hook.
+		if ( __FILE__ != WP_UNINSTALL_PLUGIN ) {
+			return;
+		}
 		delete_option( 'rewrite_rules' );
 	}
 
@@ -123,21 +122,7 @@ class Init_Plugin {
 	 *
 	 * @return void
 	 */
-	public static function init_autoloader() {
+	public function init_autoloader() {
 
-	}
-
-	/**
-	 * Return active instance of Init_Plugin, create one if it doesn't exist
-	 *
-	 * @return object $instance
-	 */
-	public static function get_instance() {
-		if ( empty( self::$instance ) ) {
-			$class = __CLASS__;
-			self::$instance = new $class;
-		}
-		return self::$instance;
 	}
 }
-Init_Plugin::get_instance();
