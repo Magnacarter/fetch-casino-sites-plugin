@@ -65,7 +65,7 @@ class Init_Plugin {
 
         // Enqueue the scripts.
 		wp_enqueue_style(   'raketech_styles', RAKETECH_PLUGIN_URL . '/plugin-styles.css', array(), RAKETECH_PLUGIN_VER );
-		wp_enqueue_script(  'raketech_get_json', RAKETECH_PLUGIN_URL . 'assets/js/get-site-json.js', array(), RAKETECH_PLUGIN_VER, false );
+		wp_enqueue_script(  'raketech_get_json', RAKETECH_PLUGIN_URL . 'assets/js/casino-list.js', array(), RAKETECH_PLUGIN_VER, false );
 	}
 
 	/**
