@@ -19,7 +19,6 @@
  * Domain Path:       /languages
  */
 namespace Raketech\fetch_sites;
-use Raketech\fetch_sites;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Cheatin&#8217?' );
@@ -43,15 +42,14 @@ class Init_Plugin {
 	 * @return void
 	 */
 	public function __construct() {
-		// Only load script if in admin.
-		// if ( is_admin() ) {
-		// 	add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
-		// }
-
 		register_activation_hook( __FILE__, array( __CLASS__, 'activate_plugin' ) );
 		register_deactivation_hook( __FILE__, array( __CLASS__, 'deactivate_plugin' ) );
 		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall_plugin' ) );
 
+        // Load plugin scripts and styles.
+        add_action( 'init', array( $this, 'public_scripts' ) );
+
+        // Load plugin classes.
 		$this->init_autoloader();
 	}
 
@@ -62,8 +60,12 @@ class Init_Plugin {
 	 * @return void
 	 */
 	public function public_scripts() {
+        // Serve the casino data.
+        wp_enqueue_script(  'raketech_json_data', RAKETECH_PLUGIN_URL . 'api/data.json', array(), RAKETECH_PLUGIN_VER, false );
+
+        // Enqueue the scripts.
 		wp_enqueue_style(   'raketech_styles', RAKETECH_PLUGIN_URL . '/plugin-styles.css', array(), RAKETECH_PLUGIN_VER );
-		//wp_enqueue_script(  'raketech_script',        RAKETECH_PLUGIN_URL . 'assets/js/pub-script.js', array( 'jquery' ), RAKETECH_PLUGIN_VER, false );
+		wp_enqueue_script(  'raketech_get_json', RAKETECH_PLUGIN_URL . 'assets/js/get-site-json.js', array(), RAKETECH_PLUGIN_VER, false );
 	}
 
 	/**
@@ -123,6 +125,6 @@ class Init_Plugin {
 	 * @return void
 	 */
 	public function init_autoloader() {
-
+        require_once 'classes/class-site-list.php';
 	}
 }
