@@ -1,3 +1,11 @@
+Use Tailwind css
+
+CD to plugin directory and run
+npx tailwindcss -i ./assets/css/plugin.css -o ./plugin-styles.css --watch
+
+Tailwind installation docs
+https://tailwindcss.com/docs/installation
+
 Requirements:
 1. The review list should be responsive and appear without issues in both mobile and desktop devices.
 2. The JSON file contains multiple arrays of review objects. You need to display only those under the key 575.
