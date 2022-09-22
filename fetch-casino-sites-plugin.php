@@ -60,11 +60,8 @@ class Init_Plugin {
 	 * @return void
 	 */
 	public function public_scripts() {
-        // Serve the casino data.
-        wp_enqueue_script(  'raketech_json_data', RAKETECH_PLUGIN_URL . 'api/data.json', array(), RAKETECH_PLUGIN_VER, false );
-
         // Enqueue the scripts.
-		wp_enqueue_style(   'raketech_styles', RAKETECH_PLUGIN_URL . '/plugin-styles.css', array(), RAKETECH_PLUGIN_VER );
+		wp_enqueue_style(   'raketech_styles', RAKETECH_PLUGIN_URL . 'plugin-styles.css', array(), RAKETECH_PLUGIN_VER );
 		wp_enqueue_script(  'raketech_get_json', RAKETECH_PLUGIN_URL . 'assets/js/casino-list.js', array(), RAKETECH_PLUGIN_VER, false );
 	}
 
