@@ -59,12 +59,15 @@ class CasinoList extends HTMLElement {
   }
 
   populateListItem(casino, div) {
+    // Create the item div
     const item = div;
     item.setAttribute('id', casino.brand_id);
-    item.className = ['flex justify-between items-center'];
 
     // Unique data-id
-    item.querySelector('[data-casino-id]').setAttribute('data-casino-id', casino.brand_id);
+    item.setAttribute('data-casio-id', casino.brand_id);
+
+    // Use flexbox styles
+    item.className = ['flex items-center py-6'];
 
     // Image src
     item.getElementsByTagName('img')[0].src = casino.logo;
@@ -75,27 +78,43 @@ class CasinoList extends HTMLElement {
     // Review rating
     const starPercent = this.starIcons(casino.info.rating);
     item.querySelector('.stars-inner').style.width = starPercent;
+
+    // Set the bonus
+    item.querySelector('.bonus p').innerHTML = casino.info.bonus;
+
+    // Set the features
+    const ul = item.querySelector('.features ul');
+    this.setFeatures(casino.info.features, ul);
   }
 
   // Unpopulated markup with Tailwind attributes for styles.
   itemMarkup() {
     const markup = `
-    <div class="w-full py-4" data-casino-id>
-      <div class="text-center w-64">
+      <div class="text-center md:w-64 md:mr-4">
         <img class="pb-8 motion-reduce relative h-full w-full object-cover transition duration-500 hover:scale-110 justify-center items-center" src/>
         <a class="text-blue-600 underline" href>Review</a>
       </div>
-      <div class="review">
+      <div class="review w-48 text-center md:-mt-16">
         <div class="stars-outer">
           <div class="stars-inner"></div>
         </div>
+        <div class="bonus"><p class="text-sm font-semibold"></p></div>
       </div>
-      <div class="play-btn-wrapper">
-
+      <div class="features">
+        <ul></ul>
       </div>
-    </div>`;
+      <div class="play-btn-wrapper"></div>`;
     
     return markup;
+  }
+
+  // Setup a loop for the features.
+  setFeatures(features, ul) {
+    features.forEach(feature => {
+      let li = document.createElement('li');
+      li.innerText = feature;
+      ul.appendChild(li);
+    });
   }
 
   // Get the casio rating and convert it for star review.
