@@ -60,9 +60,12 @@ class Init_Plugin {
 	 * @return void
 	 */
 	public function public_scripts() {
-        // Enqueue the scripts.
+        // Enqueue the styles.
 		wp_enqueue_style(   'raketech_styles', RAKETECH_PLUGIN_URL . 'plugin-styles.css', array(), RAKETECH_PLUGIN_VER );
-		wp_enqueue_script(  'raketech_get_json', RAKETECH_PLUGIN_URL . 'assets/js/casino-list.js', array(), RAKETECH_PLUGIN_VER, false );
+
+		// Enqueue web components. 
+		wp_enqueue_script(  'raketech_casino_list', RAKETECH_PLUGIN_URL . 'assets/js/casino-list.js', array(), RAKETECH_PLUGIN_VER, false );
+		wp_enqueue_script(  'raketech_list_item', RAKETECH_PLUGIN_URL . 'assets/js/list-item.js', array(), RAKETECH_PLUGIN_VER, false );
 	}
 
 	/**
