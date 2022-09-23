@@ -71,6 +71,10 @@ class CasinoList extends HTMLElement {
 
     // Review href
     item.getElementsByTagName('a')[0].href = `${casino.play_url}/${casino.brand_id}`;
+
+    // Review rating
+    const starPercent = this.starIcons(casino.info.rating);
+    item.querySelector('.stars-inner').style.width = starPercent;
   }
 
   // Unpopulated markup with Tailwind attributes for styles.
@@ -81,11 +85,10 @@ class CasinoList extends HTMLElement {
         <img class="pb-8 motion-reduce relative h-full w-full object-cover transition duration-500 hover:scale-110 justify-center items-center" src/>
         <a class="text-blue-600 underline" href>Review</a>
       </div>
-      <div class="">
-          <p></p>
-      </div>
-      <div class="star-review">
-
+      <div class="review">
+        <div class="stars-outer">
+          <div class="stars-inner"></div>
+        </div>
       </div>
       <div class="play-btn-wrapper">
 
@@ -94,5 +97,14 @@ class CasinoList extends HTMLElement {
     
     return markup;
   }
+
+  // Get the casio rating and convert it for star review.
+  starIcons(rate) {
+    const starTotal = 5;
+    const starPercentage = (rate / starTotal) * 100;
+    const starPercentageRounded = `${(Math.round(starPercentage / 10) * 10)}%`;
+
+    return starPercentageRounded;
+  };
 }
 customElements.define('casino-list', CasinoList);

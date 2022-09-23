@@ -62,10 +62,13 @@ class Init_Plugin {
 	public function public_scripts() {
         // Enqueue the styles.
 		wp_enqueue_style(   'raketech_styles', RAKETECH_PLUGIN_URL . 'plugin-styles.css', array(), RAKETECH_PLUGIN_VER );
+		wp_enqueue_style(   'raketech_stars', RAKETECH_PLUGIN_URL . 'assets/css/star.css', array(), RAKETECH_PLUGIN_VER );
 
-		// Enqueue web components. 
+		// Enqueue font awesome.
+		wp_enqueue_script(  'raketech_font_awesome', 'https://kit.fontawesome.com/b2195895a2.js', array(), RAKETECH_PLUGIN_VER, false );
+
+		// Enqueue web component.
 		wp_enqueue_script(  'raketech_casino_list', RAKETECH_PLUGIN_URL . 'assets/js/casino-list.js', array(), RAKETECH_PLUGIN_VER, false );
-		wp_enqueue_script(  'raketech_list_item', RAKETECH_PLUGIN_URL . 'assets/js/list-item.js', array(), RAKETECH_PLUGIN_VER, false );
 	}
 
 	/**
