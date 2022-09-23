@@ -46,20 +46,41 @@ class CasinoList extends HTMLElement {
 
   // Dynamically populate the html with a casino's data.
   createListItem(casino) {
+    console.log(casino);
     const cl = document.getElementById('casino-list');
     const newDiv = document.createElement('div');
+    newDiv.setAttribute('class', 'item-wrapper');
     const rawMarkup = this.itemMarkup();
     newDiv.innerHTML = rawMarkup;
     cl.appendChild(newDiv);
 
-    //TODO : Populate markup with casino data
+    // Populate markup with casino data.
+    this.populateListItem(casino, newDiv);
+  }
+
+  populateListItem(casino, div) {
+    const item = div;
+    item.setAttribute('id', casino.brand_id);
+    item.className = ['flex justify-between items-center'];
+
+    // Unique data-id
+    item.querySelector('[data-casino-id]').setAttribute('data-casino-id', casino.brand_id);
+
+    // Image src
+    item.getElementsByTagName('img')[0].src = casino.logo;
+
+    // Review href
+    item.getElementsByTagName('a')[0].href = `${casino.play_url}/${casino.brand_id}`;
   }
 
   // Unpopulated markup with Tailwind attributes for styles.
   itemMarkup() {
-    //TODO : Use tailwind to style the list
-    const markup = `<div data-casino-id="">
-      <img src>
+    const markup = `
+    <div class="w-full py-4" data-casino-id>
+      <div class="text-center w-64">
+        <img class="pb-8 motion-reduce relative h-full w-full object-cover transition duration-500 hover:scale-110 justify-center items-center" src/>
+        <a class="text-blue-600 underline" href>Review</a>
+      </div>
       <div class="">
           <p></p>
       </div>
