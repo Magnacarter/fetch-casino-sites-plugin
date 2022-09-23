@@ -1,7 +1,7 @@
 class CasinoList extends HTMLElement {
   constructor() {
     super();
-    this.dataUrl = `${document.location.origin}/wp-json/wp/v2/pages/174`;
+    this.dataUrl = `${document.location.origin}/wp-json/wp/v2/pages/66`;
   }
 
   // Init the list once the component is mounted.
@@ -67,7 +67,7 @@ class CasinoList extends HTMLElement {
     item.setAttribute('data-casio-id', casino.brand_id);
 
     // Use flexbox styles
-    item.className = ['flex items-center justify-around py-6'];
+    item.className = ['flex items-center flex-wrap md:flex-nowrap md:justify-between py-6 border-b'];
 
     // Image src
     item.getElementsByTagName('img')[0].src = casino.logo;
@@ -85,25 +85,39 @@ class CasinoList extends HTMLElement {
     // Set the features
     const ul = item.querySelector('.features ul');
     this.setFeatures(casino.info.features, ul);
+
+    // Render the play button
+    item.querySelector('.play-btn-wrapper a').href = casino.play_url;
+
+    // Set the terms and conditions
+    const terms = item.querySelector('.terms');
+    terms.innerHTML = casino.terms_and_conditions;
+    terms.querySelector('a').style.color = 'red';
+
   }
 
   // Unpopulated markup with Tailwind attributes for styles.
   itemMarkup() {
     const markup = `
-      <div class="text-center md:w-64">
+      <div class="text-center w-full md:w-64">
         <img class="pb-8 motion-reduce relative h-full w-full object-cover transition duration-500 hover:scale-110 justify-center items-center" src/>
         <a class="text-blue-600 underline" href>Review</a>
       </div>
-      <div class="review md:w-48 text-center md:-mt-16">
+      <div class="review w-full md:w-48 text-center md:-mt-16">
         <div class="stars-outer">
           <div class="stars-inner"></div>
         </div>
-        <div class="bonus"><p class="text-sm font-semibold"></p></div>
+        <div class="bonus w-full"><p class="text-sm font-semibold"></p></div>
       </div>
-      <div class="features md:-mt-16">
-        <ul class="text-sm font-semibold"></ul>
+      <div class="features my-6 md:my-0 text-center md:text-left w-full md:w-48 md:-mt-16">
+        <ul class="text-sm font-semibold md:list-disc"></ul>
       </div>
-      <div class="play-btn-wrapper"></div>`;
+      <div class="text-center w-full md:w-64">
+        <div class="play-btn-wrapper">
+          <a class="font-lg uppercase text-white underline p-6 bg-lime-600 rounded">Play Now</a>
+        </div>
+        <div class="terms text-xs font-semibold mt-8"></div>
+      </div>`;
     
     return markup;
   }
