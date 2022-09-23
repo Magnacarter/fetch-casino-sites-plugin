@@ -67,7 +67,7 @@ class CasinoList extends HTMLElement {
     item.setAttribute('data-casio-id', casino.brand_id);
 
     // Use flexbox styles
-    item.className = ['flex items-center py-6'];
+    item.className = ['flex items-center justify-around py-6'];
 
     // Image src
     item.getElementsByTagName('img')[0].src = casino.logo;
@@ -90,18 +90,18 @@ class CasinoList extends HTMLElement {
   // Unpopulated markup with Tailwind attributes for styles.
   itemMarkup() {
     const markup = `
-      <div class="text-center md:w-64 md:mr-4">
+      <div class="text-center md:w-64">
         <img class="pb-8 motion-reduce relative h-full w-full object-cover transition duration-500 hover:scale-110 justify-center items-center" src/>
         <a class="text-blue-600 underline" href>Review</a>
       </div>
-      <div class="review w-48 text-center md:-mt-16">
+      <div class="review md:w-48 text-center md:-mt-16">
         <div class="stars-outer">
           <div class="stars-inner"></div>
         </div>
         <div class="bonus"><p class="text-sm font-semibold"></p></div>
       </div>
-      <div class="features">
-        <ul></ul>
+      <div class="features md:-mt-16">
+        <ul class="text-sm font-semibold"></ul>
       </div>
       <div class="play-btn-wrapper"></div>`;
     

@@ -631,6 +631,10 @@ video {
   justify-content: space-between;
 }
 
+.justify-around {
+  justify-content: space-around;
+}
+
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
@@ -699,7 +703,19 @@ video {
     margin-top: -4rem;
   }
 
+  .md\:-ml-8 {
+    margin-left: -2rem;
+  }
+
+  .md\:ml-8 {
+    margin-left: 2rem;
+  }
+
   .md\:w-64 {
     width: 16rem;
+  }
+
+  .md\:w-48 {
+    width: 12rem;
   }
 }
